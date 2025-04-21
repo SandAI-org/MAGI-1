@@ -84,7 +84,7 @@ MAGI-1 achieves state-of-the-art performance among open-source models (surpassin
 
 ### Physical Evaluation
 
-Thanks to the natural advantages of autoregressive architecture, Magi achieves far superior precision in predicting physical behavior through video continuation—significantly outperforming all existing models.
+Thanks to the natural advantages of autoregressive architecture, Magi achieves far superior precision in predicting physical behavior on the [Physics-IQ benchmark](https://github.com/google-deepmind/physics-IQ-benchmark) through video continuation—significantly outperforming all existing models.
 
 | Model          | Phys. IQ Score ↑ | Spatial IoU ↑ | Spatio Temporal ↑ | Weighted Spatial IoU ↑ | MSE ↓  |
 |----------------|------------------|---------------|-------------------|-------------------------|--------|
