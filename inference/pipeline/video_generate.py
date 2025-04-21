@@ -86,13 +86,17 @@ def extract_feature_for_inference(
     model_config = model.model_config
     runtime_config = model.runtime_config
     ### Prepare prefix video feature
-    infer_chunk_num = math.ceil(
-        (runtime_config.num_frames // runtime_config.temporal_downsample_factor * 1.0 + prefix_video.size(2))
-        / runtime_config.chunk_width
-    )
     clean_chunk_num = 0
     if prefix_video is not None:
         clean_chunk_num = prefix_video.size(2) // runtime_config.chunk_width
+        infer_chunk_num = math.ceil(
+            (runtime_config.num_frames // runtime_config.temporal_downsample_factor * 1.0 + prefix_video.size(2))
+            / runtime_config.chunk_width
+        )
+    else:
+        infer_chunk_num = math.ceil(
+            (runtime_config.num_frames // runtime_config.temporal_downsample_factor * 1.0) / runtime_config.chunk_width
+        )
 
     ### Prepare text feature
     # [1, caption_max_length (800), hidden_size(4096)]
