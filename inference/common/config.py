@@ -155,9 +155,6 @@ class MagiConfig:
                 ), "Please set `cfg_number: 1` in config.json for distill or quant model"
             else:
                 assert magi_config.runtime_config.cfg_number == 3, "Please set `cfg_number: 3` in config.json for base model"
-            assert (
-                magi_config.runtime_config.fps == magi_config.runtime_config.chunk_width * 4
-            ), "fps must be 4 times of chunk_width"
 
         post_validation(magi_config)
 
