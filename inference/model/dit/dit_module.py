@@ -359,7 +359,12 @@ def softcap(x: torch.Tensor, cap: int):
 def div_clamp_to(x: torch.Tensor, scale: torch.Tensor):
     fp8_min = torch.finfo(torch.float8_e4m3fn).min
     fp8_max = torch.finfo(torch.float8_e4m3fn).max
-    return torch.clamp(x.float() / scale.float(), fp8_min, fp8_max).to(torch.float8_e4m3fn)
+    prefix_shape = x.shape[:-1]
+    last_shape = x.shape[-1]
+    x = x.flatten().reshape(-1, last_shape)
+    part_size = 256 * 1024 * 1024 // last_shape
+    part_num = (x.shape[0] + part_size - 1) // part_size
+    return torch.cat([torch.clamp(x[i * part_size:(i+1) * part_size].float() / scale.float(), fp8_min, fp8_max).bfloat16() for i in range(part_num)], dim=0).to(torch.float8_e4m3fn).reshape(*prefix_shape, last_shape).contiguous()
 
 
 ##########################################################
