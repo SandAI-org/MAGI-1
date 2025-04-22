@@ -78,7 +78,7 @@ We provide the pre-trained weights for MAGI-1, including the 24B and 4.5B models
 
 ### In-house Human Evaluation
 
-MAGI-1 achieves state-of-the-art performance among open-source models (like Wan-2.1 and HunyuanVideo) and close-source model like Hailuo (i2v-01), particularly excelling in instruction following and motion quality, positioning it as a strong potential competitor to closed-source commercial models such as Kling.
+MAGI-1 achieves state-of-the-art performance among open-source models like Wan-2.1 and HunyuanVideo and close-source model like Hailuo (i2v-01), particularly excelling in instruction following and motion quality, positioning it as a strong potential competitor to closed-source commercial models such as Kling.
 
 ![inhouse human evaluation](figures/inhouse_human_evaluation.png)
 
