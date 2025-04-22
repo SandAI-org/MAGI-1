@@ -184,6 +184,8 @@ By adjusting these parameters, you can flexibly control the input and output to 
 
 ### Some Useful Configs (for config.json)
 
+> NOTE: If you are running with RTX 4090 \* 8, please set `pp_size:2 cp_size: 4`.
+
 | Config         | Help                                                         |
 | -------------- | ------------------------------------------------------------ |
 | seed           | Random seed used for video generation                        |
@@ -191,7 +193,7 @@ By adjusting these parameters, you can flexibly control the input and output to 
 | video_size_w   | Width of the video                                           |
 | num_frames     | Controls the duration of generated video                     |
 | fps            | Frames per second, 4 video frames correspond to 1 latent_frame |
-| cfg_number     | Base model uses cfg_number==2, distill and quant model uses cfg_number=1 |
+| cfg_number     | Base model uses cfg_number==3, distill and quant model uses cfg_number=1 |
 | load           | Directory containing a model checkpoint.                     |
 | t5_pretrained  | Path to load pretrained T5 model                             |
 | vae_pretrained | Path to load pretrained VAE model                            |
