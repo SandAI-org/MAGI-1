@@ -22,7 +22,7 @@ This repository contains the code for the MAGI-1 model, pre-trained weights and 
 
 
 ## 🔥🔥🔥 Latest News
-
+- Apr 22, 2025: We’re planning to release our 4.5B model by the end of April. Final touches are still underway — stay tuned for the official drop.
 - Apr 21, 2025: MAGI-1 is here 🎉. We've released the model weights and inference code — check it out!
 
 
