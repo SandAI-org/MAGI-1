@@ -184,7 +184,7 @@ By adjusting these parameters, you can flexibly control the input and output to 
 
 ### Some Useful Configs (for config.json)
 
-> NOTE: If you are running with RTX 4090 \* 8, please set `pp_size:2 cp_size: 4`.
+> NOTE: If you are running 24B model with RTX 4090 \* 8, please set `pp_size:2 cp_size: 4`.
 
 | Config         | Help                                                         |
 | -------------- | ------------------------------------------------------------ |
