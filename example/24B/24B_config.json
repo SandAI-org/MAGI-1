@@ -72,9 +72,9 @@
     "engine_config": {
         "distributed_backend": "nccl",
         "distributed_timeout_minutes": 15,
-        "pp_size": 2,
-        "cp_size": 4,
-        "cp_strategy": "cp_shuffle_overlap",
+        "pp_size": 1,
+        "cp_size": 8,
+        "cp_strategy": "cp_ulysses",
         "ulysses_overlap_degree": 1,
         "fp8_quant": true,
         "distill_nearly_clean_chunk_threshold": 0.3,

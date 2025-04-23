@@ -22,7 +22,7 @@ This repository contains the code for the MAGI-1 model, pre-trained weights and 
 
 
 ## 🔥🔥🔥 Latest News
-
+- Apr 22, 2025: We’re planning to release our 4.5B model by the end of April. Final touches are still underway — stay tuned for the official drop.
 - Apr 21, 2025: MAGI-1 is here 🎉. We've released the model weights and inference code — check it out!
 
 
@@ -78,13 +78,13 @@ We provide the pre-trained weights for MAGI-1, including the 24B and 4.5B models
 
 ### In-house Human Evaluation
 
-MAGI-1 achieves state-of-the-art performance among open-source models (surpassing Wan-2.1 and significantly outperforming Hailuo and HunyuanVideo), particularly excelling in instruction following and motion quality, positioning it as a strong potential competitor to closed-source commercial models such as Kling.
+MAGI-1 achieves state-of-the-art performance among open-source models like Wan-2.1 and HunyuanVideo and closed-source model like Hailuo (i2v-01), particularly excelling in instruction following and motion quality, positioning it as a strong potential competitor to closed-source commercial models such as Kling.
 
 ![inhouse human evaluation](figures/inhouse_human_evaluation.png)
 
 ### Physical Evaluation
 
-Thanks to the natural advantages of autoregressive architecture, Magi achieves far superior precision in predicting physical behavior through video continuation—significantly outperforming all existing models.
+Thanks to the natural advantages of autoregressive architecture, Magi achieves far superior precision in predicting physical behavior on the [Physics-IQ benchmark](https://github.com/google-deepmind/physics-IQ-benchmark) through video continuation—significantly outperforming all existing models.
 
 | Model          | Phys. IQ Score ↑ | Spatial IoU ↑ | Spatio Temporal ↑ | Weighted Spatial IoU ↑ | MSE ↓  |
 |----------------|------------------|---------------|-------------------|-------------------------|--------|
@@ -184,6 +184,8 @@ By adjusting these parameters, you can flexibly control the input and output to 
 
 ### Some Useful Configs (for config.json)
 
+> NOTE: If you are running 24B model with RTX 4090 \* 8, please set `pp_size:2 cp_size: 4`.
+
 | Config         | Help                                                         |
 | -------------- | ------------------------------------------------------------ |
 | seed           | Random seed used for video generation                        |
@@ -191,7 +193,7 @@ By adjusting these parameters, you can flexibly control the input and output to 
 | video_size_w   | Width of the video                                           |
 | num_frames     | Controls the duration of generated video                     |
 | fps            | Frames per second, 4 video frames correspond to 1 latent_frame |
-| cfg_number     | Base model uses cfg_number==2, distill and quant model uses cfg_number=1 |
+| cfg_number     | Base model uses cfg_number==3, distill and quant model uses cfg_number=1 |
 | load           | Directory containing a model checkpoint.                     |
 | t5_pretrained  | Path to load pretrained T5 model                             |
 | vae_pretrained | Path to load pretrained VAE model                            |
