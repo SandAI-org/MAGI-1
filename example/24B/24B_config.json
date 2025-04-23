@@ -64,6 +64,7 @@
         "chunk_width": 6,
         "load": "./downloads/24B_base",
         "t5_pretrained": "./downloads/t5_pretrained",
+        "t5_device": "cuda",
         "vae_pretrained": "./downloads/vae",
         "scale_factor": 0.18215,
         "temporal_downsample_factor": 4

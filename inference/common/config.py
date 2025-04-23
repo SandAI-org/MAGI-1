@@ -77,6 +77,7 @@ class RuntimeConfig:
 
     # Checkpoint, includes t5, vae, dit, etc.
     t5_pretrained: str = None  # Path to load pretrained T5 model.
+    t5_device: str = "cuda"  # Device for T5 model to run on.
     vae_pretrained: str = None  # Path to load pretrained VAE model.
     scale_factor: float = 0.18215  # Scale factor for the vae
     temporal_downsample_factor: int = 4  # Temporal downsample factor for the vae
