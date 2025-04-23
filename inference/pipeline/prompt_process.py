@@ -181,12 +181,18 @@ def get_txt_embeddings(prompt: str, config: MagiConfig):
     prompts = [prompt]
     if not torch.distributed.is_initialized():
         txt_embs = prepare_prompt_embeddings(
-            prompts, config.runtime_config.t5_pretrained, config.runtime_config.t5_device, config.model_config.caption_max_length
+            prompts,
+            config.runtime_config.t5_pretrained,
+            config.runtime_config.t5_device,
+            config.model_config.caption_max_length,
         )
     else:
         if is_last_tp_cp_rank():
             txt_embs = prepare_prompt_embeddings(
-                prompts, config.runtime_config.t5_pretrained, config.runtime_config.t5_device, config.model_config.caption_max_length
+                prompts,
+                config.runtime_config.t5_pretrained,
+                config.runtime_config.t5_device,
+                config.model_config.caption_max_length,
             )
         else:
             txt_embs = [None]
