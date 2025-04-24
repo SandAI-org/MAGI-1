@@ -158,7 +158,7 @@ class VideoDiTModel(torch.nn.Module):
         ###################################
         # caculate rescale_factor for multi-resolution & multi aspect-ratio training
         # the base_size [16*16] is A predefined size based on data:(256x256)  vae: (8,8,4) patch size: (1,1,2)
-        # This defination do not have any relationship with the actual input/model/setting.
+        # This definition do not have any relationship with the actual input/model/setting.
         # ref_feat_shape is used to calculate innner rescale factor, so it can be float.
         rescale_factor = math.sqrt((H * W) / (16 * 16))
         rope = self.rope.get_embed(shape=[T_total, H, W], ref_feat_shape=[T_total, H / rescale_factor, W / rescale_factor])
