@@ -10,8 +10,10 @@ ftfy==6.2.0
 gpustat==1.1.1
 imageio==2.34.0
 imageio[ffmpeg]
+matplotlib==3.10.1
 numpy==1.26.4
 protobuf==5.28.3
+rich==14.0.0
 sentencepiece==0.2.0
 timm==1.0.15
 torchdiffeq==0.2.4
