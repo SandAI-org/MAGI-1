@@ -58,7 +58,7 @@
         "num_frames": 96,
         "video_size_h": 720,
         "video_size_w": 720,
-        "num_steps": 32,
+        "num_steps": 64,
         "window_size": 4,
         "fps": 24,
         "chunk_width": 6,
