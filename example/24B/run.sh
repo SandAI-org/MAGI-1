@@ -36,7 +36,7 @@ LOG_DIR=log_$(date "+%Y-%m-%d_%H:%M:%S").log
 
 export PYTHONPATH="$MAGI_ROOT:$PYTHONPATH"
 torchrun $DISTRIBUTED_ARGS inference/pipeline/entry.py \
-    --config_file example/24B/24B_config.json \
+    --config_file example/24B/24B_base_config.json \
     --mode i2v \
     --prompt "Good Boy" \
     --image_path example/assets/image.jpeg \
