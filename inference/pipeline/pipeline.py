@@ -27,8 +27,7 @@ from .video_process import post_chunk_process, process_image, process_prefix_vid
 class MagiPipeline:
     def __init__(self, config_path):
         self.config = MagiConfig.from_json(config_path)
-        if self.config.runtime_config.seed is not None:
-            set_random_seed(self.config.runtime_config.seed)
+        set_random_seed(self.config.runtime_config.seed)
         dist_init(self.config)
         print_rank_0(self.config)
 
