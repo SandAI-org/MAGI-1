@@ -28,9 +28,14 @@ from flash_attn import flash_attn_varlen_func
 from flash_attn.flash_attn_interface import flash_attn_func
 from flash_attn.layers.rotary import apply_rotary_emb as flash_apply_rotary_emb
 from flashinfer.gemm import bmm_fp8
-from magi_attention.functional import flex_flash_attn_func as flex_attention
 
-# from dffa.functional import flex_flash_attn_func as flex_attention
+try:
+    from magi_attention.functional import flex_flash_attn_func
+
+    flex_attention = flex_flash_attn_func
+except:
+    flex_attention = None
+
 from torch import Tensor
 from torch.nn import Parameter
 
@@ -1023,7 +1028,7 @@ class FullyParallelAttention(Attention):
         # (sq b) hn hd -> b sq hn hd
         value = value.reshape(-1, bs, value.shape[1], value.shape[2]).transpose(0, 1).contiguous()
 
-        if torch.cuda.get_device_capability()[0] >= 9:
+        if torch.cuda.get_device_capability()[0] >= 9 and flex_attention is not None:
             core_attn_out, _ = flex_attention(
                 query.flatten(0, 1),
                 key.flatten(0, 1),
@@ -1063,7 +1068,7 @@ class FullyParallelAttention(Attention):
     def full_attention(self, bs: int, meta_args: ModelMetaArgs, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, i: int):
         # NOTE(lml): full_attention is used under cp_shuffle_overlap strategy. We further limit it to the case of bs=1, so that we do not need to pay attention to the arrangement of sq and bs dimensions.
         assert bs == 1
-        if torch.cuda.get_device_capability()[0] >= 9:
+        if torch.cuda.get_device_capability()[0] >= 9 and flex_attention is not None:
             q_range = meta_args.core_attn_params.q_range[i : i + 1] - meta_args.core_attn_params.q_range[i, 0]
             k_range = meta_args.core_attn_params.k_range[i : i + 1]
             o, _ = flex_attention(
@@ -1102,7 +1107,7 @@ class FullyParallelAttention(Attention):
         # =================
         query_xattn, key_xattn, value_xattn = get_xqkv_func(mixed_qqkv, key_value_states)
 
-        if torch.cuda.get_device_capability()[0] >= 9:
+        if torch.cuda.get_device_capability()[0] >= 9 and flex_attention is not None:
             xattn_out, _ = flex_attention(
                 query_xattn,
                 key_xattn,

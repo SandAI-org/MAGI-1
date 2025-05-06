@@ -139,7 +139,7 @@ pip install -r requirements.txt
 # Install ffmpeg
 conda install -c conda-forge ffmpeg=4.4
 
-# Install MagiAttention, for more information, please refer to https://github.com/SandAI-org/MagiAttention#
+# For GPUs based on the Hopper architecture (e.g., H100/H800), it is recommended to install MagiAttention(https://github.com/SandAI-org/MagiAttention) for acceleration. For non-Hopper GPUs, installing MagiAttention is not necessary.
 git clone git@github.com:SandAI-org/MagiAttention.git
 cd MagiAttention
 git submodule update --init --recursive
