@@ -32,7 +32,7 @@ LOG_DIR=log_$(date "+%Y-%m-%d_%H:%M:%S").log
 
 export PYTHONPATH="$MAGI_ROOT:$PYTHONPATH"
 python3 inference/pipeline/entry.py \
-    --config_file example/4.5B/4.5B_config.json \
+    --config_file example/4.5B/4.5B_base_config.json \
     --mode t2v \
     --prompt "Good Boy" \
     --output_path example/assets/output_t2v.mp4 \

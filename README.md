@@ -22,7 +22,9 @@ This repository contains the code for the MAGI-1 model, pre-trained weights and 
 
 
 ## 🔥🔥🔥 Latest News
-- Apr 22, 2025: We’re planning to release our 4.5B model by the end of April. Final touches are still underway — stay tuned for the official drop.
+
+- Apr 30, 2025: MAGI-1 4.5B distill and distill+quant models are coming soon 🎉 — we’re putting on the final touches, stay tuned!
+- Apr 30, 2025: MAGI-1 4.5B model has been released 🎉. We've updated the model weights — check it out!
 - Apr 21, 2025: MAGI-1 is here 🎉. We've released the model weights and inference code — check it out!
 
 
@@ -65,14 +67,20 @@ We adopt a shortcut distillation approach that trains a single velocity-based mo
 
 We provide the pre-trained weights for MAGI-1, including the 24B and 4.5B models, as well as the corresponding distill and distill+quant models. The model weight links are shown in the table.
 
-| Model                         | Link                                                         | Recommend Machine               |
-| ----------------------------- | ------------------------------------------------------------ | ------------------------------- |
-| T5 | [T5](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/t5) | - |
-| MAGI-1-VAE  | [MAGI-1-VAE](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/vae) | - |
-| MAGI-1-24B                    | [MAGI-1-24B](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/24B_base)       | H100/H800 \* 8                  |
-| MAGI-1-24B-distill            | [MAGI-1-24B-distill](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/24B_distill) | H100/H800 \* 8                  |
-| MAGI-1-24B-distill+fp8_quant  | [MAGI-1-24B-distill+quant](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/24B_distill_quant) | H100/H800 \* 4 or RTX 4090 \* 8 |
-| MAGI-1-4.5B                   | MAGI-1-4.5B      | RTX 4090 \* 1                   |
+| Model                         | Link                                                                 | Recommend Machine             |
+| ------------------------------ | -------------------------------------------------------------------- | ------------------------------- |
+| T5                             | [T5](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/t5)        | -                               |
+| MAGI-1-VAE                     | [MAGI-1-VAE](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/vae) | -                               |
+| MAGI-1-24B                     | [MAGI-1-24B](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/24B_base) | H100/H800 × 8                   |
+| MAGI-1-24B-distill              | [MAGI-1-24B-distill](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/24B_distill) | H100/H800 × 8                   |
+| MAGI-1-24B-distill+fp8_quant    | [MAGI-1-24B-distill+quant](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/24B_distill_quant) | H100/H800 × 4 or RTX 4090 × 8    |
+| MAGI-1-4.5B                    | [MAGI-1-4.5B](https://huggingface.co/sand-ai/MAGI-1/tree/main/ckpt/magi/4.5B_base) | RTX 4090 × 1                    |
+| MAGI-1-4.5B-distill             | Coming soon                                                         | RTX 4090 × 1                    |
+| MAGI-1-4.5B-distill+fp8_quant   | Coming soon                                                         | RTX 4090 × 1                    |
+
+> [!NOTE]
+>
+> For 4.5B models, any machine with at least 24GB of GPU memory is sufficient.
 
 ## 4. Evaluation
 
@@ -89,10 +97,11 @@ Thanks to the natural advantages of autoregressive architecture, Magi achieves f
 | Model          | Phys. IQ Score ↑ | Spatial IoU ↑ | Spatio Temporal ↑ | Weighted Spatial IoU ↑ | MSE ↓  |
 |----------------|------------------|---------------|-------------------|-------------------------|--------|
 | **V2V Models** |                  |               |                   |                         |        |
-| **Magi (V2V)** | **56.02**        | **0.367**     | **0.270**         | **0.304**               | **0.005** |
+| **Magi-24B (V2V)** | **56.02**        | **0.367**     | **0.270**         | **0.304**               | **0.005** |
+| **Magi-4.5B (V2V)** | **42.44**        | **0.234**     | **0.285**         | **0.188**               | **0.007** |
 | VideoPoet (V2V)| 29.50            | 0.204         | 0.164             | 0.137                   | 0.010  |
 | **I2V Models** |                  |               |                   |                         |        |
-| **Magi (I2V)** | **30.23**        | **0.203**     | **0.151**         | **0.154**               | **0.012** |
+| **Magi-24B (I2V)** | **30.23**        | **0.203**     | **0.151**         | **0.154**               | **0.012** |
 | Kling1.6 (I2V) | 23.64            | 0.197         | 0.086             | 0.144                   | 0.025  |
 | VideoPoet (I2V)| 20.30            | 0.141         | 0.126             | 0.087                   | 0.012  |
 | Gen 3 (I2V)    | 22.80            | 0.201         | 0.115             | 0.116                   | 0.015  |
@@ -130,7 +139,7 @@ pip install -r requirements.txt
 # Install ffmpeg
 conda install -c conda-forge ffmpeg=4.4
 
-# Install MagiAttention, for more information, please refer to https://github.com/SandAI-org/MagiAttention#
+# For GPUs based on the Hopper architecture (e.g., H100/H800), it is recommended to install MagiAttention(https://github.com/SandAI-org/MagiAttention) for acceleration. For non-Hopper GPUs, installing MagiAttention is not necessary.
 git clone git@github.com:SandAI-org/MagiAttention.git
 cd MagiAttention
 git submodule update --init --recursive
@@ -184,7 +193,11 @@ By adjusting these parameters, you can flexibly control the input and output to 
 
 ### Some Useful Configs (for config.json)
 
-> NOTE: If you are running 24B model with RTX 4090 \* 8, please set `pp_size:2 cp_size: 4`.
+> [!NOTE]
+>
+> - If you are running 24B model with RTX 4090 \* 8, please set `pp_size:2 cp_size: 4`.
+>
+> - Our model supports arbitrary resolutions. To accelerate inference process, the default resolution for the 4.5B model is set to 720×720 in the `4.5B_config.json`.
 
 | Config         | Help                                                         |
 | -------------- | ------------------------------------------------------------ |

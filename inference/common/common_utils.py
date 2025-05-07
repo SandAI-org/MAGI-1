@@ -33,10 +33,8 @@ def set_random_seed(seed):
 
     Args:
         seed (int): Seed to be used.
-                    If not provided or set to 0, a random seed will be generated.
     """
-    if not seed or seed == 0:
-        seed = random.randint(0, 2**32 - 1)
+    assert seed is not None, "Please provide a seed in config.json"
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
