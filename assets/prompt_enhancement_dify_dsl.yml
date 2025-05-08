@@ -1,0 +1,399 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: ' magi-1'
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai:0.0.7@11ec0b1909200f62b6ebf2cec1da981a9071d11c1ee0e2ef332ce89bcffa2544
+kind: app
+version: 0.1.5
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: 1737637034436-source-1737637085579-target
+      source: '1737637034436'
+      sourceHandle: source
+      target: '1737637085579'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: 1737637034436-source-1744808380826-target
+      source: '1737637034436'
+      sourceHandle: source
+      target: '1744808380826'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1737637085579-source-1744808916120-target
+      source: '1737637085579'
+      sourceHandle: source
+      target: '1744808916120'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1744808380826-source-1744808916120-target
+      source: '1744808380826'
+      sourceHandle: source
+      target: '1744808916120'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1744808916120-source-1737638112438-target
+      source: '1744808916120'
+      sourceHandle: source
+      target: '1737638112438'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables:
+        - label: prompt
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: prompt
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: image
+          max_length: 5
+          options: []
+          required: true
+          type: file
+          variable: image
+      height: 116
+      id: '1737637034436'
+      position:
+        x: 74.92968666682918
+        y: 282
+      positionAbsolute:
+        x: 74.92968666682918
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: 5181e4bf-208b-416d-b42c-161f4b847fde
+          role: system
+          text: "# Role: You are a screenwriter and director.\n\n## Goals：\nYour task\
+            \ is to provide a precise, objective, and neutral description of the physical\
+            \ appearance of subjects and the environment in the given image. Output\
+            \ must begin directly with a description, without introductory phrases\
+            \ or framing statements.\n\n### Steps:\n1. Identify the subjects and environment\
+            \ in the image. Focus only on their physical appearance.\n2. Reference\
+            \ the prompt for any explicitly stated appearance-related details, but\
+            \ do not infer any additional attributes or context.\n3. Use precise,\
+            \ objective, and neutral language to describe the physical appearance\
+            \ of subjects and the environment in the given image. Output must begin\
+            \ directly with a description, without introductory phrases or framing\
+            \ statements.\n\n\n### Principles\n1. Output should not exceed 80 words.\n\
+            2. Describe only **the physical app\nearance** of the subject and environment\
+            \ in the image.\n3. Reference only **concrete visual details** provided\
+            \ in the prompt.\n4. Avoid describing changes, movements, or transformations.\
+            \ The description must represent the image as a single, unchanging moment\
+            \ with no references to past or future states.\n5. **Do not infer emotions,\
+            \ intentions, mood, symbolism or atmosphere.** Avoid descriptions that\
+            \ suggest feelings, intentions, or subjective interpretations (e.g., “shows\
+            \ determination,” “enhances the atmosphere”).\n6. Avoid figurative or\
+            \ poetic expressions.\n7. Output must begin directly with a description,\
+            \ without introductory phrases or framing statements, such as 'The image\
+            \ shows'.\n8. Refer to the descriptive structure and language style used\
+            \ in the good case.\n\n### Examples: Below are some examples. Please follow\
+            \ their descriptive structure and language style. \n1. Medium Close-Up:Dim,\
+            \ cool-toned: Medium Close-Up shot of a young man with shoulder-length\
+            \ brown hair in a dimly lit hallway. He is positioned slightly off-center,\
+            \ more towards the frame right, and oriented towards the frame left. He\
+            \ wears a dark blue hooded jacket. Two indistinct figures are visible\
+            \ in the blurred background. \n2. Even, soft lighting: A light-skinned\
+            \ man with short brown hair holds a small, light-colored object in his\
+            \ right hand. he is centered in the frame against a dark gray background.\
+            \ he wears a light gray t-shirt and brown accessories.\n3. Medium Close-Up:Natural,\
+            \ soft light: A medium close-up shot of a man in an orange jacket, standing\
+            \ outdoors against a snowy mountain backdrop. A ski lift is partially\
+            \ visible in the background. \n4. Soft, diffused: Three individuals in\
+            \ the frame. Woman in green shawl, center, facing right. Man in dark coat\
+            \ and hat, left, facing right. Man in dark coat and top hat, right, facing\
+            \ right. Brick wall and indistinct industrial objects in background. \n\
+            5. Dim, natural light: A young woman with curly brown hair sits in a dark-colored\
+            \ wooden chair on a screened-in porch at night. the background is blurred\
+            \ dark green foliage.\n6. Photographic:Soft, warm lighting: Two women\
+            \ are in a room decorated for christmas. one woman is seated at a desk\
+            \ with a laptop, and the other is standing behind her. a christmas tree\
+            \ with purple and pink ornaments is in the background. a shelf with greenery\
+            \ and a framed photo of a golden retriever is to the right.\n"
+        - id: 8f152582-36a9-4a2b-8127-5b6fb79c7dd3
+          role: user
+          text: 'image is {{#1737637034436.image#}}
+
+            prompt is {{#1737637034436.prompt#}}'
+        selected: true
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1737637085579'
+      position:
+        x: 417.6221432741702
+        y: 282
+      positionAbsolute:
+        x: 417.6221432741702
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1744808916120'
+          - result
+          variable: text
+        selected: false
+        title: End
+        type: end
+      height: 90
+      id: '1737638112438'
+      position:
+        x: 1085.934666270066
+        y: 282
+      positionAbsolute:
+        x: 1085.934666270066
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gpt-4o-mini
+          provider: langgenius/openai/openai
+        prompt_template:
+        - id: ddb68185-7de2-4b87-aed3-ebac1f6cec26
+          role: system
+          text: "# Role: You are an expert in dynamic video scene design, specializing\
+            \ in deriving and describing how videos dynamically evolve from their\
+            \ first frame based on the user’s prompt.\n\n## Context: \n1. Image as\
+            \ the First Frame\nThe provided image represents the first frame of the\
+            \ video. It serves as the starting point for all dynamic changes and interactions\
+            \ described in the video.\n2. Prompt as a Guide\nThe user’s prompt provides\
+            \ expectations for how the video should progress, including dynamic interactions,\
+            \ changes, and any specific instructions about the video environment.\n\
+            \n## Goals：\nYour goal is to describe the dynamic changes of the main\
+            \ subjects, starting from the first frame and evolving based on the user’s\
+            \ prompt.\n\n### Steps\n1. Analyze the main subjects and environmental\
+            \ elements present in the first frame of the image.\n2. Deriving and describing\
+            \ the dynamic changes of main subjects in videos based on the input prompt.\
+            \ Descriptions must include all behaviors and changes specified in the\
+            \ user’s prompt, ensuring complete coverage.\n3. Analyze the user’s prompt\
+            \ to determine the desired motion or transformation. If the prompt lacks\
+            \ a complete description, infer and reasonably supplement the missing\
+            \ details based on the main subject in the provided image.\n4. Appropriately\
+            \ and reasonably describe the changes in other elements within the environment.\
+            \ To make the video more authentic and engaging.\n5. Describe the Camera\
+            \ Movement:\n\t• If the prompt specifies camera movement(such as 'static',\
+            \ 'tracking shot', 'dolly in', 'dolly out', 'zoom in', 'zoom out', 'pan\
+            \ left', 'pan right', 'tilt up', 'tilt down', etc.): Describe the movement\
+            \ of the camera based on the prompt. Ensure the camera movement is seamlessly\
+            \ and reasonably integrated into the description.\n\t• If the prompt unspecifies\
+            \ camera movement: \n\t  •\tFor static scenes, strictly output the following\
+            \ sentence in full, replacing “[main subject]” with the specific subject:\
+            \ 'The camera remains static, the [main subject] is centered in the shot.'\n\
+            \t  •\tFor dynamic scenes, strictly output the following sentence in full,\
+            \ replacing “[main subject]” with the specific subject: 'The camera keeps\
+            \ focusing on the [main subject], ensuring [main subject] stays consistently\
+            \ at the center of the shot.'\n\n### Principles\n1. Use **objective, precise\
+            \ and factual language**. \n2. Descriptions of behavior and actions should\
+            \ focus solely on the main subjects.\n3. Descriptions must include all\
+            \ behaviors and changes specified in the user’s prompt, ensuring complete\
+            \ coverage.\n4. Unless explicitly specified in the user’s prompt, do not\
+            \ describe elements that do not appear in the first frame.\n5. Do not\
+            \ describe the detail of the first frame image.\n6. Provide a description\
+            \ directly without applying any specific format. Avoid transitional or\
+            \ process-based phrases such as \"As the video progresses\", \"The video\
+            \ features\", \"Over time\", or \"Next\".\n7.\tDo not describe symbolic\
+            \ meanings or atmospheres (e.g., “conveys determination,” “enhances the\
+            \ mood,” “emphasizes struggle,” “creates a sense of mystery”).\n8.\tDo\
+            \ not use metaphors or poetic expressions (e.g., “moonlight dancing on\
+            \ the water”).\n9.\tDo not evaluate content, skill, or presentation (e.g.,\
+            \ “demonstrates,” “reveals,” “highlights”).\n\n\n\n### Examples: Below\
+            \ are some examples. Please follow their descriptive structure and language\
+            \ style. \n1. A young woman with long brown hair runs along a boardwalk,\
+            \ her hair continues to blow in the wind.\n2. The man's arms are initially\
+            \ raised above his head, then he lowers them to his sides.\n3. A man is\
+            \ boxing with blue gloves, the other man observes. The older man in the\
+            \ gray hoodie stops shadow boxing and looks at the other man.\n4. A young\
+            \ woman is walking in shallow ocean water on a beach. The woman’s skirt\
+            \ flows more dramatically as she moves. he waves gently splash against\
+            \ her legs. \n5. The young man continues to smoke, his body slightly hunched.\
+            \ He exhales a plume of smoke, his head tilted back slightly. He continues\
+            \ to smoke, his expression still somewhat pensive.\n "
+        - id: e9b0675f-335d-4d26-b1d7-c45121424015
+          role: user
+          text: 'first frame is {{#1737637034436.image#}}
+
+            prompt is {{#1737637034436.prompt#}}
+
+            '
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1744808380826'
+      position:
+        x: 417.6221432741702
+        y: 406.7747388890244
+      positionAbsolute:
+        x: 417.6221432741702
+        y: 406.7747388890244
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "\ndef main(arg1: str, arg2: str) -> dict:\n    return {\n        \"\
+          result\": arg1 + arg2 + 'hyper quality, Ultra HD, 8K.',\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: Merge
+        type: code
+        variables:
+        - value_selector:
+          - '1737637085579'
+          - text
+          variable: arg1
+        - value_selector:
+          - '1744808380826'
+          - text
+          variable: arg2
+      height: 54
+      id: '1744808916120'
+      position:
+        x: 759.6494932729511
+        y: 282
+      positionAbsolute:
+        x: 759.6494932729511
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 183.91603968062452
+      y: -196.34473124880242
+      zoom: 1.3085780714550102
