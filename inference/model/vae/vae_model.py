@@ -114,10 +114,10 @@ class VideoTokenizerABC(ABC):
         parallel_group: torch.distributed.ProcessGroup = None,
     ) -> TileProcessor:
         """
-        Property representing the tile autoencoder.
+        Property representing the tiled encoder or decoder.
 
         Returns:
-            TileProcessor: The tile autoencoder.
+            TileProcessor: The tiled encoder or decoder.
         """
         return TileProcessor(
             encode_fn=self.encode,
@@ -152,9 +152,13 @@ class VideoTokenizerABC(ABC):
 
         Args:
             x (torch.Tensor shape:[N C T H W]): The input tensor to be encoded.
-            tile_sample_min_size (int, optional): The minimum size of each tile sample. Defaults to None.
-            tile_sample_min_length (int, optional): The minimum length of each tile sample. Defaults to None.
+            tile_sample_min_height (int, optional): The minimum height of each tile sample. Defaults to 256.
+            tile_sample_min_width (int, optional): The minimum width of each tile sample. Defaults to 256.
+            tile_sample_min_length (int, optional): The minimum length of each tile sample. Defaults to 16.
+            spatial_tile_overlap_factor (float, optional): Overlap factor for spatial tiles. Defaults to 0.25.
+            temporal_tile_overlap_factor (float, optional): Overlap factor for temporal tiles. Defaults to 0.
             allow_spatial_tiling (bool, optional): Whether spatial tiling is allowed. Defaults to None.
+            verbose (bool, optional): Whether to print verbose information. Defaults to False.
             parallel_group (torch.distributed.ProcessGroup, optional): Distributed encoding group. Defaults to None.
         Returns:
             torch.Tensor: The encoded tensor.
@@ -189,10 +193,14 @@ class VideoTokenizerABC(ABC):
         Decodes the input tensor using the tile autoencoder.
 
         Args:
-            x (Tensor): The input tensor to be decoded.
-            tile_sample_min_size (int, optional): The minimum size of the tile sample. Defaults to None.
-            tile_sample_min_length (int, optional): The minimum length of the tile sample. Defaults to None.
+            x (torch.Tensor): The input tensor to be decoded.
+            tile_sample_min_height (int, optional): The minimum height of each tile sample. Defaults to 256.
+            tile_sample_min_width (int, optional): The minimum width of each tile sample. Defaults to 256.
+            tile_sample_min_length (int, optional): The minimum length of each tile sample. Defaults to 16.
+            spatial_tile_overlap_factor (float, optional): Overlap factor for spatial tiles. Defaults to 0.25.
+            temporal_tile_overlap_factor (float, optional): Overlap factor for temporal tiles. Defaults to 0.
             allow_spatial_tiling (bool, optional): Whether spatial tiling is allowed. Defaults to None.
+            verbose (bool, optional): Whether to print verbose information. Defaults to False.
             parallel_group (torch.distributed.ProcessGroup, optional): Distributed decoding group. Defaults to None.
         Returns:
             torch.Tensor shape:[N C T H W]: The decoded tensor.
@@ -253,13 +261,13 @@ class ViTVAE(ModelMixin, ConfigMixin, VideoTokenizerABC):
         Encode the input video.
 
         Args:
-            x (torch.Tensor): Input video tensor have shape N C T H W
+            x (torch.Tensor): Input video tensor has shape N C T H W
 
         Returns:
             tuple: Tuple containing the quantized tensor, embedding loss, and additional information.
         """
         N, C, T, H, W = x.shape
-        if T == 1:
+        if T == 1 and self._temporal_downsample_factor > 1:
             x = x.expand(-1, -1, 4, -1, -1)
             x = self.encoder(x)
             posterior = DiagonalGaussianDistribution(x)
