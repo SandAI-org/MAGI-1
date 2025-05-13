@@ -13,7 +13,7 @@
     src="https://img.shields.io/badge/Twitter-Sand%20AI-white?logo=x&logoColor=white"/></a>
     <a href="https://discord.gg/hgaZ86D7Wv"><img alt="Discord"
     src="https://img.shields.io/badge/Discord-Sand%20AI-7289da?logo=discord&logoColor=white&color=7289da"/></a>
-    <a href="https://github.com/SandAI-org/MAGI-1/LICENSE"><img alt="license" src="https://img.shields.io/badge/License-Apache2.0-green?logo=Apache"></a>
+    <a href="https://github.com/SandAI-org/MAGI-1/blob/main/LICENSE"><img alt="license" src="https://img.shields.io/github/license/SandAI-org/MAGI-1?color=green&label=License&logo=Apache"></a>
 </p>
 
 # MAGI-1: Autoregressive Video Generation at Scale
