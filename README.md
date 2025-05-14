@@ -23,6 +23,7 @@ This repository contains the code for the MAGI-1 model, pre-trained weights and 
 
 ## 🔥🔥🔥 Latest News
 
+- May 14, 2025: Added Dify DSL for prompt enhancement 🎉 — import it into Dify to boost prompt quality!
 - Apr 30, 2025: MAGI-1 4.5B distill and distill+quant models are coming soon 🎉 — we’re putting on the final touches, stay tuned!
 - Apr 30, 2025: MAGI-1 4.5B model has been released 🎉. We've updated the model weights — check it out!
 - Apr 21, 2025: MAGI-1 is here 🎉. We've released the model weights and inference code — check it out!
@@ -211,12 +212,15 @@ By adjusting these parameters, you can flexibly control the input and output to 
 | t5_pretrained  | Path to load pretrained T5 model                             |
 | vae_pretrained | Path to load pretrained VAE model                            |
 
+## 6. Prompt Enhancement
 
-## 6. License
+To improve prompt quality, we provide a [Dify DSL](/assets/prompt_enhancement_dify_dsl.yml) file that can be imported directly into [Dify](https://dify.ai/) to set up a prompt enhancement pipeline. If you’re new to Dify, see [how to create an app from a DSL file](https://docs.dify.ai/en/guides/application-orchestrate/creating-an-application#creating-from-a-dsl-file) to get started.
+
+## 7. License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
-## 7. Citation
+## 8. Citation
 
 If you find our code or model useful in your research, please cite:
 
@@ -229,6 +233,6 @@ If you find our code or model useful in your research, please cite:
 }
 ```
 
-## 8. Contact
+## 9. Contact
 
 If you have any questions, please feel free to raise an issue or contact us at [research@sand.ai](mailto:research@sand.ai) .
