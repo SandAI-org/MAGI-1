@@ -225,11 +225,14 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 If you find our code or model useful in your research, please cite:
 
 ```bibtex
-@misc{magi1,
+@misc{ai2025magi1autoregressivevideogeneration,
       title={MAGI-1: Autoregressive Video Generation at Scale},
-      author={Sand-AI},
+      author={Sand. ai and Hansi Teng and Hongyu Jia and Lei Sun and Lingzhi Li and Maolin Li and Mingqiu Tang and Shuai Han and Tianning Zhang and W. Q. Zhang and Weifeng Luo and Xiaoyang Kang and Yuchen Sun and Yue Cao and Yunpeng Huang and Yutong Lin and Yuxin Fang and Zewei Tao and Zheng Zhang and Zhongshu Wang and Zixun Liu and Dai Shi and Guoli Su and Hanwen Sun and Hong Pan and Jie Wang and Jiexin Sheng and Min Cui and Min Hu and Ming Yan and Shucheng Yin and Siran Zhang and Tingting Liu and Xianping Yin and Xiaoyu Yang and Xin Song and Xuan Hu and Yankai Zhang and Yuqiao Li},
       year={2025},
-      url={https://static.magi.world/static/files/MAGI_1.pdf},
+      eprint={2505.13211},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2505.13211},
 }
 ```
 
