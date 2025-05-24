@@ -67,6 +67,11 @@ def _load_shard(shard_path, param_names, num_threads=None):
 
 def load_sharded_safetensors_parallel_with_progress(checkpoint_dir):
     index_path = os.path.join(checkpoint_dir, "model.safetensors.index.json")
+    if not os.path.exists(index_path):
+        model_file_path = os.path.join(checkpoint_dir, "model.safetensors")
+        state_dict = load_file(model_file_path)
+        return state_dict
+
     with open(index_path, "r") as f:
         index = json.load(f)
 
