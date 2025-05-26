@@ -1,0 +1,27 @@
+ai-modal-project/
+├── backend/             # Backend FastAPI
+│   ├── .env.example     # Exemple de configuration pour les variables d'environnement
+│   ├── main.py          # Point d'entrée de l'API FastAPI
+│   ├── video_generator.py # Module de génération de vidéos à partir de texte
+│   ├── requirements.txt  # Dépendances Python
+│   └── uploads/         # Dossier pour les vidéos uploadées et générées
+├── frontend/            # Frontend React
+│   ├── public/          # Fichiers statiques
+│   ├── src/             # Code source React
+│   │   ├── components/   # Composants React
+│   │   │   ├── AIModal.js       # Composant de la fenêtre contextuelle
+│   │   │   ├── AIModal.css      # Styles du composant modal
+│   │   │   ├── VideoViewer.js   # Composant de visualisation vidéo
+│   │   │   ├── VideoViewer.css  # Styles du visualiseur vidéo
+│   │   │   ├── VideoGenerator.js # Composant de génération de vidéos
+│   │   │   └── VideoGenerator.css # Styles du générateur de vidéos
+│   │   ├── App.js     # Composant principal de l'application
+│   │   ├── App.css    # Styles du composant principal
+│   │   ├── index.js   # Point d'entrée React
+│   │   └── index.css  # Styles globaux
+│   └── package.json   # Configuration et dépendances npm
+├── tests/               # Tests d'automatisation avec Selenium
+│   ├── requirements.txt # Dépendances pour les tests
+│   └── test_selenium.py # Tests Selenium pour la fenêtre contextuelle
+├── integration.py       # Module d'intégration avec MAGI-1
+└── magi_integration_example.py # Exemple d'intégration avec le pipeline MAGI-1
