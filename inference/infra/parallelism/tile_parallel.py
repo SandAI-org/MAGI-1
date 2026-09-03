@@ -212,13 +212,26 @@ class TileProcessor:
 
         self.spatial_downsample_factor = spatial_downsample_factor
         self.temporal_downsample_factor = temporal_downsample_factor
+        if spatial_downsample_factor <= 0 or temporal_downsample_factor <= 0:
+            raise ValueError("Downsample factors must be positive")
+        if tile_sample_min_height <= 0 or tile_sample_min_width <= 0 or tile_sample_min_length <= 0:
+            raise ValueError("Tile sample dimensions must be positive")
         self.tile_sample_min_height = tile_sample_min_height
         self.tile_sample_min_width = tile_sample_min_width
         self.tile_sample_min_length = tile_sample_min_length
-        self.tile_latent_min_height = tile_sample_min_height // spatial_downsample_factor
-        self.tile_latent_min_width = tile_sample_min_width // spatial_downsample_factor
+        # Use ceiling division so a sample tile smaller than one encoder stride still owns one latent position.  Floor
+        # division produced a zero-sized temporal tile for the distilled 24B configuration and made the overlap stride
+        # zero, which then failed while enumerating tiles.
+        self.tile_latent_min_height = max(
+            1, (tile_sample_min_height + spatial_downsample_factor - 1) // spatial_downsample_factor
+        )
+        self.tile_latent_min_width = max(
+            1, (tile_sample_min_width + spatial_downsample_factor - 1) // spatial_downsample_factor
+        )
 
-        self.tile_latent_min_length = tile_sample_min_length // temporal_downsample_factor
+        self.tile_latent_min_length = max(
+            1, (tile_sample_min_length + temporal_downsample_factor - 1) // temporal_downsample_factor
+        )
         if first_frame_as_image:
             self.tile_latent_min_length += 1
 
@@ -226,6 +239,11 @@ class TileProcessor:
         self.temporal_tile_overlap_factor = temporal_tile_overlap_factor
         self.sr_ratio = sr_ratio
         self.parallel_group = parallel_group
+
+    @staticmethod
+    def _tile_stride(tile_size: int, overlap_factor: float) -> int:
+        """Return a positive tile stride for a requested overlap factor."""
+        return max(1, int(tile_size * (1 - overlap_factor)))
 
     def blend_t(self, a: torch.Tensor, b: torch.Tensor, blend_extent: int) -> torch.Tensor:
         blend_extent = min(a.shape[2], b.shape[2], blend_extent)
@@ -252,9 +270,9 @@ class TileProcessor:
         return b
 
     def tiled_encode(self, x: torch.FloatTensor, verbose: bool = False):
-        overlap_height = int(self.tile_sample_min_height * (1 - self.spatial_tile_overlap_factor))
-        overlap_width = int(self.tile_sample_min_width * (1 - self.spatial_tile_overlap_factor))
-        overlap_length = int(self.tile_sample_min_length * (1 - self.temporal_tile_overlap_factor))
+        overlap_height = self._tile_stride(self.tile_sample_min_height, self.spatial_tile_overlap_factor)
+        overlap_width = self._tile_stride(self.tile_sample_min_width, self.spatial_tile_overlap_factor)
+        overlap_length = self._tile_stride(self.tile_sample_min_length, self.temporal_tile_overlap_factor)
         blend_extent_h = int(self.tile_latent_min_height * self.spatial_tile_overlap_factor)
         blend_extent_w = int(self.tile_latent_min_width * self.spatial_tile_overlap_factor)
         blend_extent_t = int(self.tile_latent_min_length * self.temporal_tile_overlap_factor)
@@ -290,11 +308,8 @@ class TileProcessor:
         tile_index_list, global_tile_index_list = ParallelHelper.split_tile_list(
             tile_numel_dict, parallel_group=self.parallel_group
         )
-        progress_bar = tqdm(
-            total=len(tile_index_list),
-            desc=f"[Rank {torch.distributed.get_rank(group=self.parallel_group)}] Encoding Tiles",
-            disable=not verbose,
-        )
+        rank = torch.distributed.get_rank(group=self.parallel_group) if torch.distributed.is_initialized() else 0
+        progress_bar = tqdm(total=len(tile_index_list), desc=f"[Rank {rank}] Encoding Tiles", disable=not verbose)
 
         frames = []
         # Encode each tile based on the tile index list
@@ -346,9 +361,9 @@ class TileProcessor:
         return result
 
     def tiled_decode(self, z: torch.FloatTensor, verbose: bool = False):
-        overlap_height = int(self.tile_latent_min_height * (1 - self.spatial_tile_overlap_factor))
-        overlap_width = int(self.tile_latent_min_width * (1 - self.spatial_tile_overlap_factor))
-        overlap_length = int(self.tile_latent_min_length * (1 - self.temporal_tile_overlap_factor))
+        overlap_height = self._tile_stride(self.tile_latent_min_height, self.spatial_tile_overlap_factor)
+        overlap_width = self._tile_stride(self.tile_latent_min_width, self.spatial_tile_overlap_factor)
+        overlap_length = self._tile_stride(self.tile_latent_min_length, self.temporal_tile_overlap_factor)
 
         real_tile_sample_min_height = int(self.tile_latent_min_height * self.spatial_downsample_factor * self.sr_ratio)
         real_tile_sample_min_width = int(self.tile_latent_min_width * self.spatial_downsample_factor * self.sr_ratio)
@@ -390,11 +405,8 @@ class TileProcessor:
         tile_index_list, global_tile_index_list = ParallelHelper.split_tile_list(
             tile_numel_dict, parallel_group=self.parallel_group
         )
-        progress_bar = tqdm(
-            total=len(tile_index_list),
-            desc=f"[Rank {torch.distributed.get_rank(group=self.parallel_group)}] Decoding Tiles",
-            disable=not verbose,
-        )
+        rank = torch.distributed.get_rank(group=self.parallel_group) if torch.distributed.is_initialized() else 0
+        progress_bar = tqdm(total=len(tile_index_list), desc=f"[Rank {rank}] Decoding Tiles", disable=not verbose)
 
         frames = []
         # Decode each tile based on the tile index list
