@@ -169,12 +169,12 @@ class MagiConfig:
                 return super().default(obj)
 
         # Ensure the directory exists
-        os.makedirs(os.path.dirname(json_path), exist_ok=True)
+        os.makedirs(os.path.dirname(json_path) or ".", exist_ok=True)
 
         config_dict = {
             "model_config": dataclasses.asdict(self.model_config),
             "runtime_config": dataclasses.asdict(self.runtime_config),
             "engine_config": dataclasses.asdict(self.engine_config),
         }
-        with open(json_path, "w") as f:
+        with open(json_path, "w", encoding="utf-8") as f:
             json.dump(config_dict, f, indent=4, cls=SimpleJSONEncoder)
